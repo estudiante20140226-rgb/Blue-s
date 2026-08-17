@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's - Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/loginyregistro.css">
+</head>
+<body>
+
+    <canvas id="waveCanvas"></canvas>
+    <canvas id="partCanvas"></canvas>
+
+    <header class="navbar">
+        <div class="logo"><span class="b-logo">B</span>lue<em>'s</em></div>
+    </header>
+
+    <div class="page-container">
+        <main class="form-section">
+            <h1 class="hero-title">
+                UN GUSTO<br>VERTE DE<br><span class="cursive-text">vuelta!</span>
+            </h1>
+            
+            <form class="auth-form" id="login-form" novalidate>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Correo electrónico" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Iniciar sesión</button>
+                    <p class="switch-text">¿No tienes una cuenta? <a href="Registro.html" class="toggle-link"><br>Regístrate</a></p>
+                </div>
+            </form>
+
+            <p id="message-box" class="message-alert" aria-live="polite"></p>
+        </main>
+
+        <aside class="image-section">
+            <img src="../images/guitarra.jpg" alt="Blues Guitar" class="hero-image">
+        </aside>
+    </div>
+
+    <script src="../js/fondo.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>

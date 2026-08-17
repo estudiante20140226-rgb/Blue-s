@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's - Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/loginyregistro.css">
+</head>
+<body>
+
+    <canvas id="waveCanvas"></canvas>
+    <canvas id="partCanvas"></canvas>
+
+    <header class="navbar">
+        <div class="logo"><span class="b-logo">B</span>lue<em>'s</em></div>
+    </header>
+
+    <div class="page-container">
+        <main class="form-section">
+            <h1 class="hero-title">
+                CREA TU<br>CUENTA EN<br><span class="cursive-text">Blue's</span>
+            </h1>
+            
+            <!-- CORREGIDO: ID cambiado a "register-form" -->
+            <form class="auth-form" id="register-form" novalidate>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Correo electrónico" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="password" name="confirm" placeholder="Confirma tu contraseña" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Registrarse</button>
+                    <p class="switch-text">¿Ya tienes una cuenta? <a href="iniciosesion.html" class="toggle-link"><br>Inicia sesión</a></p>
+                </div>
+            </form>
+
+            <p id="message-box" class="message-alert" aria-live="polite"></p>
+        </main>
+
+        <aside class="image-section">
+            <img src="../images/negritobluesguitarra.jpg" alt="Blues Guitar" class="hero-image">
+        </aside>
+    </div>
+
+    <div id="modal-exito" class="modal-oculto">
+        <div class="modal-contenido">
+            <h2>¡Registro Completado! </h2>
+            <p>Gracias por unirte. En breve serás redirigido...</p>
+         </div>
+    </div>
+
+    <script src="../js/fondo.js"></script>
+    <script src="../js/registro.js"></script>
+</body>
+</html>

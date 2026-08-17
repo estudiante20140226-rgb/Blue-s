@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue's — Vinyl Dark</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --indigo:       #3d54a0;
+    --indigo-dim:   #2a3a6e;
+    --indigo-glow:  rgba(61,84,160,0.4);
+    --indigo-soft:  rgba(61,84,160,0.12);
+    --cream:        #e8dcc8;
+    --cream-dim:    #7a6e58;
+    --bg:           #05060a;
+    --surface:      #0b0d14;
+    --surface2:     #111420;
+    --text:         #e8dcc8;
+    --text-dim:     #5a6278;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    cursor: none;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--indigo);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 16px var(--indigo), 0 0 32px var(--indigo-glow);
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(61,84,160,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.16s ease;
+  }
+
+  /* Wave canvas */
+  #waveCanvas {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    z-index: 0; pointer-events: none;
+  }
+  /* Particle canvas */
+  #partCanvas {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    z-index: 1; pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0;
+    z-index: 100;
+    padding: 24px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(5,6,10,0.95) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(61,84,160,0.1);
+  }
+  .nav-logo {
+    font-weight: 900;
+    font-size: 1.7rem;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+  }
+  .nav-logo em { font-style: italic; color: var(--indigo); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--cream-dim); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 56px 80px;
+    gap: 60px;
+  }
+
+  .hero-content { position: relative; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    background: rgba(61,84,160,0.12);
+    border: 1px solid rgba(61,84,160,0.3);
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    color: var(--indigo);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--indigo);
+    border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+
+  .hero h1 {
+    font-weight: 900;
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+  .hero h1 em {
+    display: block;
+    font-style: italic;
+    color: var(--indigo);
+    text-shadow: 0 0 60px var(--indigo-glow), 0 0 120px rgba(61,84,160,0.15);
+  }
+
+  .hero-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+    line-height: 2;
+    margin-bottom: 44px;
+    max-width: 400px;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.6s forwards;
+  }
+
+  .hero-quote {
+    padding-left: 18px;
+    border-left: 1px solid rgba(61,84,160,0.5);
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+  }
+  .hero-quote cite {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-style: normal;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+
+  /* VINYL HERO */
+  .vinyl-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .vinyl-record {
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%,
+        #2a2a2a 0%, #080808 2.5%, #161616 4%, #080808 6%,
+        #131313 9%, #080808 12%, #121212 15%, #080808 18%,
+        #111 21%, #080808 24%, #101010 27%, #080808 30%,
+        #0f0f0f 33%, #080808 36%, #0e0e0e 39%, #080808 42%,
+        #0d0d0d 45%, #080808 48%, #0c0c0c 51%, #080808 100%);
+    box-shadow:
+      0 0 0 1px #1e1e1e,
+      0 0 0 3px #080808,
+      0 0 0 4px #1a1a1a,
+      0 40px 100px rgba(0,0,0,0.8),
+      0 0 80px var(--indigo-glow);
+    animation: spinVinyl 14s linear infinite;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Groove highlight */
+  .vinyl-record::before {
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:108px; height:108px;
+    border-radius:50%;
+    background: radial-gradient(circle, #d4c8b0 0%, #b8a888 30%, #9a8a68 70%, #7a6a48 100%);
+    box-shadow: 0 0 0 2px #666, 0 2px 10px rgba(0,0,0,0.6), 0 0 20px var(--indigo-glow);
+  }
+
+  .vinyl-record::after {
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:14px; height:14px;
+    border-radius:50%;
+    background:#222;
+    z-index:2;
+    box-shadow: 0 0 6px rgba(61,84,160,0.6);
+  }
+
+  .vinyl-shine {
+    position:absolute; inset:0;
+    border-radius:50%;
+    background: linear-gradient(125deg, rgba(61,84,160,0.06) 0%, transparent 45%, rgba(255,255,255,0.02) 100%);
+    pointer-events:none;
+  }
+
+  .vinyl-label-text {
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:104px; height:104px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    z-index:3;
+    pointer-events:none;
+  }
+  .vinyl-label-text span {
+    font-family:'DM Mono',monospace;
+    font-size:0.5rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:rgba(5,6,10,0.8);
+    line-height:1.5;
+    text-align:center;
+  }
+
+  @keyframes spinVinyl {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* SVG tonearm overlaid */
+  .tonearm-svg {
+    position:absolute;
+    top: -30px;
+    right: -50px;
+    width: 100px;
+    height: 200px;
+    transform-origin: top right;
+    animation: tonearmSway 14s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes tonearmSway {
+    0%,100%{transform:rotate(-14deg);}
+    50%{transform:rotate(-12deg);}
+  }
+
+  /* MOOD SECTION */
+  .mood-section {
+    position: relative;
+    z-index: 10;
+    padding: 100px 56px;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    margin-bottom: 56px;
+  }
+  .section-title em { font-style: italic; color: var(--indigo); }
+
+  .mood-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .mood-card {
+    flex: 1;
+    min-width: 130px;
+    background: var(--surface);
+    border: 1px solid rgba(61,84,160,0.15);
+    border-radius: 10px;
+    padding: 28px 16px 22px;
+    text-align: center;
+    cursor: none;
+    transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mood-card::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(160deg, var(--indigo-dim) 0%, rgba(42,58,110,0.4) 100%);
+    opacity:0;
+    transition: opacity 0.35s;
+  }
+
+  .mood-card:hover::before { opacity: 1; }
+  .mood-card:hover {
+    border-color: rgba(61,84,160,0.6);
+    transform: translateY(-10px);
+    box-shadow: 0 28px 70px rgba(0,0,0,0.5), 0 0 40px var(--indigo-glow);
+  }
+
+  .mood-emoji {
+    font-size: 2.4rem;
+    display: block;
+    margin-bottom: 14px;
+    transition: transform 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+  .mood-card:hover .mood-emoji { transform: scale(1.2) rotate(-8deg); }
+
+  .mood-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    position: relative; z-index:1;
+  }
+
+  .mood-genre {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    position: relative; z-index:1;
+    transition: color 0.3s;
+  }
+  .mood-card:hover .mood-genre { color: rgba(232,220,200,0.5); }
+
+  /* Result banner */
+  .mood-result {
+    display: none;
+    margin-top: 40px;
+    padding: 20px 28px;
+    background: rgba(61,84,160,0.08);
+    border: 1px solid rgba(61,84,160,0.25);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+    animation: fadeUp 0.5s forwards;
+  }
+  .mood-result strong { color: var(--indigo); font-family:'Playfair Display',serif; font-size:0.95rem; font-style:italic; }
+
+  /* PLAYLISTS */
+  .playlists-section {
+    position: relative;
+    z-index: 10;
+    padding: 20px 56px 100px;
+    display: none;
+  }
+  .playlists-section.open { display: block; animation: fadeUp 0.6s forwards; }
+
+  .records-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .record-card {
+    background: var(--surface);
+    border: 1px solid rgba(61,84,160,0.14);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: none;
+    transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  .record-card:hover {
+    border-color: rgba(61,84,160,0.45);
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px var(--indigo-glow);
+  }
+
+  .record-art {
+    height: 150px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated grooves behind mini vinyl */
+  .record-art::before {
+    content:'';
+    position:absolute;
+    width:220px; height:220px;
+    border-radius:50%;
+    border:1px solid rgba(61,84,160,0.06);
+    box-shadow:
+      0 0 0 20px rgba(61,84,160,0.04),
+      0 0 0 40px rgba(61,84,160,0.03),
+      0 0 0 60px rgba(61,84,160,0.02);
+  }
+
+  .mini-vinyl {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle,
+        #222 0%, #070707 3%, #131313 5%,
+        #080808 8%, #111 11%, #080808 14%,
+        #101010 17%, #080808 20%, #0f0f0f 23%,
+        #080808 26%, #0e0e0e 29%, #080808 100%);
+    box-shadow: 0 0 0 2px #1a1a1a, 0 8px 24px rgba(0,0,0,0.7), 0 0 20px var(--indigo-glow);
+    position: relative;
+    animation: spinVinyl 10s linear infinite;
+    animation-play-state: paused;
+  }
+  .record-card:hover .mini-vinyl { animation-play-state: running; }
+
+  .mini-vinyl::after {
+    content:'';
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:28px;height:28px;
+    border-radius:50%;
+    background:radial-gradient(circle,#c8baa0 0%,#a08868 100%);
+    box-shadow:0 0 0 1px #777, 0 0 8px var(--indigo-glow);
+  }
+
+  .record-info { padding: 20px 22px; }
+
+  .record-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .record-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
+  }
+  .record-genre {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .record-genre::before {
+    content:'';
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--indigo);
+  }
+
+  /* ABOUT */
+  .about-section {
+    position: relative;
+    z-index: 10;
+    padding: 100px 56px;
+    border-top: 1px solid rgba(61,84,160,0.1);
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-left h2 {
+    font-weight: 900;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .about-left h2 em { font-style: italic; color: var(--indigo); }
+
+  .about-left p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    line-height: 2;
+    letter-spacing: 0.02em;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid rgba(61,84,160,0.12);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--indigo);
+    text-shadow: 0 0 30px var(--indigo-glow);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .about-items { display: flex; flex-direction: column; gap: 32px; }
+
+  .about-item {
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(61,84,160,0.1);
+  }
+  .about-item:last-child { border: none; padding: 0; }
+
+  .about-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    margin-bottom: 10px;
+  }
+
+  .about-item h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .about-item p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cream-dim);
+    line-height: 1.9;
+    letter-spacing: 0.01em;
+  }
+
+  /* TEAM */
+  .team-section {
+    position: relative;
+    z-index: 10;
+    padding: 80px 56px;
+    border-top: 1px solid rgba(61,84,160,0.1);
+    background: var(--surface);
+  }
+  .team-section h2 {
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .team-section h2 em { font-style: italic; color: var(--indigo); }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    max-width: 840px;
+    margin: 0 auto;
+  }
+  .team-card {
+    text-align: center;
+    padding: 24px 14px;
+    background: var(--bg);
+    border: 1px solid rgba(61,84,160,0.14);
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+  .team-card:hover { border-color: rgba(61,84,160,0.4); }
+  .team-avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: rgba(61,84,160,0.15);
+    border: 1px solid rgba(61,84,160,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 12px;
+  }
+  .team-name {
+    font-weight: 700;
+    font-size: 0.88rem;
+    margin-bottom: 4px;
+  }
+  .team-id {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 10;
+    padding: 48px 56px;
+    border-top: 1px solid rgba(61,84,160,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .foot-logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -0.01em; }
+  .foot-logo em { font-style: italic; color: var(--indigo); }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+    text-align: right;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 40px; }
+    .vinyl-wrapper { display: none; }
+    .mood-section, .playlists-section, .about-section, .team-section, footer { padding-left: 24px; padding-right: 24px; }
+    .records-grid { grid-template-columns: 1fr; }
+    .about-section { grid-template-columns: 1fr; gap: 40px; }
+    .team-grid { grid-template-columns: repeat(2,1fr); }
+    footer { flex-direction: column; gap: 14px; }
+    footer p { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="waveCanvas"></canvas>
+<canvas id="partCanvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="nav-logo">Blue<em>'s</em></div>
+  <ul class="nav-links">
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Terapia</a></li>
+    <li><a href="#">Playlists</a></li>
+    <li><a href="#">Nosotros</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Musicoterapia Digital · Crea-J 2026
+    </div>
+    <h1>
+      Sana tu alma
+      <em>con el blues.</em>
+    </h1>
+    <p class="hero-sub">
+      Una plataforma interactiva que usa el poder terapéutico de la música para acompañarte en tu bienestar emocional, adaptada a ti.
+    </p>
+    <p class="hero-quote">
+      "La música expresa lo que no puede ser dicho y aquello sobre lo que es imposible permanecer en silencio."
+      <cite>— Victor Hugo</cite>
+    </p>
+  </div>
+
+  <div class="vinyl-wrapper">
+    <div class="vinyl-record" id="heroVinyl">
+      <div class="vinyl-shine"></div>
+      <div class="vinyl-label-text">
+        <span>Blue's<br>Records<br>◆ 2026</span>
+      </div>
+    </div>
+    <svg class="tonearm-svg" viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="12" r="9" fill="#1e2030" stroke="#3d54a0" stroke-width="1.5"/>
+      <circle cx="80" cy="12" r="4" fill="#3d54a0" opacity="0.6"/>
+      <line x1="80" y1="12" x2="22" y2="175" stroke="#2a3a6e" stroke-width="3" stroke-linecap="round"/>
+      <line x1="80" y1="12" x2="22" y2="175" stroke="rgba(61,84,160,0.3)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="22" cy="175" r="5" fill="#3d54a0" opacity="0.8"/>
+      <line x1="22" y1="175" x2="10" y2="192" stroke="#2a3a6e" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- MOODS -->
+<section class="mood-section">
+  <p class="section-eyebrow">— Tu estado de ánimo</p>
+  <h2 class="section-title">¿Cómo te<br>sientes <em>hoy?</em></h2>
+
+  <div class="mood-grid">
+    <div class="mood-card" onclick="selectMood('Tranquilo','😌','Soul Music · Ambient','Música ambiental y cuerdas suaves para sostener tu calma interior. Incluye ejercicios de respiración guiados.')">
+      <span class="mood-emoji">😌</span>
+      <div class="mood-name">Tranquilo</div>
+      <div class="mood-genre">Ambient · Drone</div>
+    </div>
+    <div class="mood-card" onclick="selectMood('Alegre','😄','Soul · Jazz','Ritmos positivos y melodías cálidas para acompañar tu buena energía y mantenerla.')">
+      <span class="mood-emoji">😄</span>
+      <div class="mood-name">Alegre</div>
+      <div class="mood-genre">Soul · Jazz</div>
+    </div>
+    <div class="mood-card" onclick="selectMood('Ansioso','😰','432Hz · Breathwork','Frecuencias calmantes y respiración guiada diseñadas para reducir la tensión del sistema nervioso.')">
+      <span class="mood-emoji">😰</span>
+      <div class="mood-name">Ansioso</div>
+      <div class="mood-genre">432Hz · Breathwork</div>
+    </div>
+    <div class="mood-card" onclick="selectMood('Triste','😢','Blues · Folk','Blues clásico que valida tu dolor y acompaña tu proceso emocional con empatía y profundidad.')">
+      <span class="mood-emoji">😢</span>
+      <div class="mood-name">Triste</div>
+      <div class="mood-genre">Blues · Folk</div>
+    </div>
+    <div class="mood-card" onclick="selectMood('Enfocado','🎯','Binaural · Lo-Fi','Binaural beats y lo-fi para alcanzar el estado de flujo y potenciar tu concentración sostenida.')">
+      <span class="mood-emoji">🎯</span>
+      <div class="mood-name">Enfocado</div>
+      <div class="mood-genre">Binaural · Lo-Fi</div>
+    </div>
+  </div>
+  <div class="mood-result" id="moodResult"></div>
+</section>
+
+<!-- PLAYLISTS -->
+<section class="playlists-section" id="playlistSection">
+  <p class="section-eyebrow">— Contenido personalizado</p>
+  <h2 class="section-title" style="margin-bottom:0">Tus <em>playlists</em></h2>
+  <div class="records-grid" id="recordsGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="about-left">
+    <h2>El proyecto<br><em>Blue's</em></h2>
+    <p>Nace de "I feel blue" — esa melancolía que todos conocemos — y del género blues, que desde el siglo XIX transforma el dolor en arte.</p>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num">1/8</div>
+        <div class="stat-label">personas con trastorno mental (OMS)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">redes cerebrales activa la música</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">acceso gratuito</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">sesiones de relajación</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-items">
+    <div class="about-item">
+      <div class="about-num">01 — Problemática</div>
+      <h4>Bienestar emocional accesible</h4>
+      <p>Según la OMS (2022), una de cada ocho personas en el mundo vive con un trastorno mental. En Latinoamérica, la brecha de atención es aún más pronunciada por factores económicos y estigma social. Los métodos convencionales se perciben como fríos y distantes.</p>
+    </div>
+    <div class="about-item">
+      <div class="about-num">02 — Ciencia</div>
+      <h4>Neurología de la musicoterapia</h4>
+      <p>Thaut y Hoemberg (2014) documentaron que la música activa más de 20 redes cerebrales simultáneamente. Bradt et al. (2021) confirmaron que las intervenciones musicales estructuradas reducen significativamente los niveles de ansiedad y mejoran la calidad de vida.</p>
+    </div>
+    <div class="about-item">
+      <div class="about-num">03 — Solución</div>
+      <h4>Plataforma interactiva personalizada</h4>
+      <p>Blue's integra principios clínicos de musicoterapia, diseño empático e interfaz intuitiva. El usuario selecciona su estado emocional y recibe playlists terapéuticas, ejercicios guiados y sesiones de relajación adaptadas individualmente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <h2>El <em>equipo</em></h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">🎸</div>
+      <div class="team-name">Iker Mejía</div>
+      <div class="team-id">20140226</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">🎹</div>
+      <div class="team-name">Enrique Ramos</div>
+      <div class="team-id">20170028</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">🎵</div>
+      <div class="team-name">Samantha Rivas</div>
+      <div class="team-id">20230386</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">🎼</div>
+      <div class="team-name">Fernanda Romualdo</div>
+      <div class="team-id">20250732</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">Blue<em>'s</em></div>
+  <p>
+    Desarrollo de Software · 1°C · Crea-J 2026<br>
+    Asesor: Ing. Carlos Amílcar Chávez
+  </p>
+</footer>
+
+<script>
+// ——— Cursor ———
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX - 5 + 'px';
+  cursor.style.top  = e.clientY - 5 + 'px';
+  ring.style.left   = e.clientX - 16 + 'px';
+  ring.style.top    = e.clientY - 16 + 'px';
+});
+
+// ——— Wave canvas (indigo palette) ———
+const wc   = document.getElementById('waveCanvas');
+const wctx = wc.getContext('2d');
+let W, H;
+function resW() { W = wc.width = innerWidth; H = wc.height = innerHeight; }
+resW();
+addEventListener('resize', resW);
+let wt = 0;
+function drawWaves() {
+  wctx.clearRect(0,0,W,H);
+  const waves = [
+    { amp:40, freq:0.01,  speed:0.5,  y:H*0.44, a:0.05 },
+    { amp:20, freq:0.018, speed:0.85, y:H*0.50, a:0.09 },
+    { amp:55, freq:0.007, speed:0.35, y:H*0.55, a:0.04 },
+    { amp:16, freq:0.022, speed:1.1,  y:H*0.47, a:0.07 },
+  ];
+  waves.forEach(w => {
+    wctx.beginPath();
+    wctx.strokeStyle = `rgba(61,84,160,${w.a})`;
+    wctx.lineWidth = 1.2;
+    for (let x=0; x<=W; x+=2) {
+      const y = w.y + Math.sin(x*w.freq + wt*w.speed)*w.amp;
+      x===0 ? wctx.moveTo(x,y) : wctx.lineTo(x,y);
+    }
+    wctx.stroke();
+  });
+  // Equalizer bars — indigo tones
+  const bars = 55;
+  const bw = W / bars;
+  for (let i=0; i<bars; i++) {
+    const bh = (Math.sin(i*0.38 + wt*1.1)*0.5+0.5)*70+8;
+    const a  = 0.03 + (bh/78)*0.045;
+    wctx.fillStyle = `rgba(61,84,160,${a})`;
+    wctx.fillRect(i*bw+2, H*0.5-bh/2, bw-4, bh);
+  }
+  wt += 0.013;
+  requestAnimationFrame(drawWaves);
+}
+drawWaves();
+
+// ——— Particles — musical notes (indigo tinted) ———
+const pc   = document.getElementById('partCanvas');
+const pctx = pc.getContext('2d');
+function resP() { pc.width = innerWidth; pc.height = innerHeight; }
+resP(); addEventListener('resize', resP);
+
+const NOTES = ['♩','♪','♫','♬','𝄞'];
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init=false) {
+    this.x = Math.random() * pc.width;
+    this.y = init ? Math.random()*pc.height : pc.height + 20;
+    this.size  = 10 + Math.random()*13;
+    this.vy    = 0.25 + Math.random()*0.7;
+    this.vx    = (Math.random()-0.5)*0.5;
+    this.maxOp = 0.1 + Math.random()*0.14;
+    this.char  = NOTES[Math.floor(Math.random()*NOTES.length)];
+    this.life  = 0;
+    this.maxL  = 220 + Math.random()*280;
+  }
+  update() {
+    this.y -= this.vy;
+    this.x += this.vx + Math.sin(this.life*0.018)*0.3;
+    this.life++;
+    this.op = this.life < 50
+      ? (this.life/50)*this.maxOp
+      : this.life > this.maxL-50
+        ? ((this.maxL-this.life)/50)*this.maxOp
+        : this.maxOp;
+    if (this.life >= this.maxL) this.reset();
+  }
+  draw() {
+    pctx.save();
+    pctx.globalAlpha = this.op;
+    pctx.fillStyle = '#3d54a0';
+    pctx.font = `${this.size}px serif`;
+    pctx.fillText(this.char, this.x, this.y);
+    pctx.restore();
+  }
+}
+const particles = [];
+for (let i=0; i<45; i++) particles.push(new Particle());
+function animPart() {
+  pctx.clearRect(0,0,pc.width,pc.height);
+  particles.forEach(p=>{ p.update(); p.draw(); });
+  requestAnimationFrame(animPart);
+}
+animPart();
+
+// ——— Mood + Playlist logic ———
+const playlists = {
+  'Tranquilo': [
+    { title:'Evening Drift',   desc:'Ambient etéreo con guitarra acústica y texturas de sintetizador suaves. Ideal para meditación pasiva y relajación profunda.', genre:'Ambient · Acoustic' },
+    { title:'Still Waters',    desc:'Drones armónicos y cello que inducen calma en minutos. Basado en técnicas de musicoterapia receptiva clínica.', genre:'Drone · Neo-classical' },
+    { title:'Night Lullaby',   desc:'Piano nocturno minimalista con reverb amplio. Diseñado para facilitar la transición hacia el sueño reparador.', genre:'Piano · Sleep Therapy' },
+  ],
+  'Alegre': [
+    { title:'Sunday Soul',     desc:'Soul clásico de los 60s con sección de vientos cálida. La ciencia confirma que libera dopamina en el sistema límbico.', genre:'Soul · R&B' },
+    { title:'Blue Bossa',      desc:'Bossa nova brasileña con influencias del jazz clásico. Ritmo suave que eleva el estado de ánimo de manera natural.', genre:'Bossa Nova · Jazz' },
+    { title:'Good Morning Blues', desc:'Blues acústico optimista con armónica y guitarra slide. La mejor forma de empezar el día con energía positiva.', genre:'Acoustic Blues' },
+  ],
+  'Ansioso': [
+    { title:'432Hz Healing',   desc:'Frecuencias de 432Hz que calman el sistema nervioso autónomo. Incluye guía de respiración cuadrada sincronizada.', genre:'432Hz · Breathwork' },
+    { title:'Forest Floor',    desc:'Sonidos naturales de bosque lluvioso con drones suaves que activan el sistema nervioso parasimpático.', genre:'Nature · Ambient' },
+    { title:'Delta Waves',     desc:'Binaural beats en frecuencia delta (0.5–4Hz) para profunda relajación y reducción efectiva del cortisol.', genre:'Binaural · Theta' },
+  ],
+  'Triste': [
+    { title:'Crossroads Blues', desc:'Delta Blues clásico adaptado. La tradición del blues como catarsis emocional colectiva convertida en herramienta terapéutica.', genre:'Delta Blues · Folk' },
+    { title:'Rain On The Roof', desc:'Piano y lluvia. La musicoterapia receptiva usa estas texturas para facilitar el procesamiento emocional sin resistencia.', genre:'Piano · Rain Sounds' },
+    { title:'Strings & Sorrow', desc:'Cuarteto de cuerdas en modo menor que acompaña el duelo. Basado en el protocolo GIM (Guided Imagery and Music).', genre:'Strings · Classical' },
+  ],
+  'Enfocado': [
+    { title:'Alpha State',     desc:'Binaural beats en ondas alfa (8–12Hz) con piano ambiental. Activa el estado mental óptimo para el aprendizaje.', genre:'Binaural · Alpha Waves' },
+    { title:'Lo-Fi Study Hall', desc:'Hip-hop instrumental downtempo con texturas de vinilo. El ritmo constante a 70–80 BPM favorece el estado de flujo.', genre:'Lo-Fi · Hip-Hop' },
+    { title:'Deep Work Mode',  desc:'Música de cámara moderna sin letra para sesiones de trabajo profundo de 90 minutos siguiendo el ciclo ultradiano.', genre:'Chamber · Minimal' },
+  ],
+};
+
+function selectMood(mood, emoji, genre, desc) {
+  const result = document.getElementById('moodResult');
+  result.innerHTML = `<strong>${emoji} ${mood}</strong> — ${desc}`;
+  result.style.display = 'block';
+
+  const section = document.getElementById('playlistSection');
+  const grid    = document.getElementById('recordsGrid');
+  section.classList.add('open');
+
+  grid.innerHTML = (playlists[mood]||[]).map(r => `
+    <div class="record-card">
+      <div class="record-art">
+        <div class="mini-vinyl"></div>
+      </div>
+      <div class="record-info">
+        <div class="record-title">${r.title}</div>
+        <div class="record-desc">${r.desc}</div>
+        <div class="record-genre">${r.genre}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Hero vinyl spins fast
+  const v = document.getElementById('heroVinyl');
+  v.style.animationDuration = '3s';
+  setTimeout(()=>{ v.style.animationDuration = '14s'; }, 2200);
+
+  setTimeout(()=> section.scrollIntoView({ behavior:'smooth', block:'start' }), 200);
+}
+</script>
+</body>
+</html>

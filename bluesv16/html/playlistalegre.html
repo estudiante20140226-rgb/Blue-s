@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/playlist.css">
+</head>
+<body>
+
+    <canvas id="waveCanvas"></canvas>
+    <canvas id="partCanvas"></canvas>
+
+    <nav>
+        <div class="nav-logo">Blue<em>'s</em></div>
+        <ul class="nav-links">
+          <li><a href="Home.html">Inicio</a></li>
+          <li><a href="home.html #playlists">Playlists</a></li>
+          <li><a href="Home.html #equipo">Nosotros</a></li>
+          <li><a href="Home.html #contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <p class="hero-sub2">Playlist</p>
+          <h1>
+            Emoción:
+            <em>Alegría</em>
+          </h1>
+          <p class="hero-sub">
+           Ritmos que sanan, abrazan y contagian. La banda sonora perfecta para celebrar los días buenos y contagiar el alma de pura felicidad.
+          </p>
+          <p class="hero-quote">
+            "La alegría es poder, y el poder es capaz de derribar cualquier barrera."
+            <cite> – Frida Kahlo</cite>
+          </p>
+        </div>
+
+          <div class="emocionimg">
+            <img src="../images/templatefeliz.jpg" alt="happy">
+          </div>
+    </section>
+
+<div class="app-shell">
+    <main class="library">
+        <div class="tracklist">
+            <div class="track-columns">
+                <span>#</span>
+                <span>Título</span>
+                <span> - Album - </span>
+                <span style="text-align:right;">Duración</span>
+            </div>
+            <div id="track-list"></div>
+        </div>
+    </main>
+
+    <!-- Reproductor de Spotify -->
+    <aside class="spotify-player">
+        <h4 class="spotify-player-label">Reproduciendo</h4>
+        <iframe id="spotify-frame" src="" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </aside>
+</div>
+
+    <div id="custom-tracks-source" style="display:none;">
+
+        <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/1NHWG8zxSEypSRF3UufrnO"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/05wIrZSwuaVWhcv5FfqeH0"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/0GjEhVFGZW8afUYGChu3Rr"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/5haXbSJqjjM0TCJ5XkfEaC"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/5t9KYe0Fhd5cW6UYT4qP8f"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/4y1LsJpmMti1PfRQV9AWWe"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/5zA8vzDGqPl2AzZkEYQGKh"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/5ubvP9oKmxLUVq506fgLhk"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/1CSLeVCXmetBh8IkTPMFdL"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2grjqo0Frpf2okIBiifQKs"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/4JFXLI3xfNUg4rMCSOvqko"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/32OlwWuMpZ6b0aN2RZOeMS"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/6JV2JOEocMgcZxYSZelKcc"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/4kbj5MwxO1bq9wjT5g9HaA"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/0cqRj7pUJDkTCEsJkx8snD"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2iuZJX9X9P0GKaE93xcPjk"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2tUBqZG2AbRi7Q0BIrVrEj"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2RlgNHKcydI9sayD2Df2xp"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/5YbgcwHjQhdT1BYQ4rxWlD"></div>        <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/7tqhbajSfrz2F7E1Z75ASX"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/63Tl9k1sH8tznn3bqoMuyF"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/3QHMxEOAGD51PDlbFPHLyJ"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2EM9zpAc7PVeoAydmbfVIL"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/2wlptOJ1g5fvLdu6ruKCKU"></div>
+                <div class="custom-track"
+            data-title="Love Angel"
+            data-artist="andriig"
+            data-album="Amor"
+            data-art="kasda"
+            data-spotify="https://open.spotify.com/embed/track/4lCv7b86sLynZbXhfScfm2"></div>
+
+    </div>
+
+    <footer>
+        <div class="foot-logo">Blue<em>'s</em></div>
+        <p>
+            Desarrollo de Software · 1°C · Crea-J 2026<br>
+            Asesor: Ing. Carlos Amílcar Chávez
+        </p>
+        <p class="foot-disclaimer">
+            Sitio web con fines estrictamente académicos y educativos. No persigue fines de lucro. Todo el material audiovisual utilizado pertenece a sus respectivos autores bajo el derecho de cita didáctica.
+        </p>
+    </footer>
+
+    <script src="../js/playlist.js"></script>
+</body>
+</html>

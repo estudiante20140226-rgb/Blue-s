@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+
+  <canvas id="waveCanvas"></canvas>
+  <canvas id="partCanvas"></canvas>
+
+  <nav>
+    <div class="nav-logo">Blue<em>'s</em></div>
+    <ul class="nav-links">
+      <li><a href="start.html">Inicio</a></li>
+      <li><a href="#playlists">Playlists</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <section class="carrusel-container" aria-label="Carrusel de fotos">
+    <div class="carrusel">
+      <div class="carrusel-slide">
+        <div class="slide-content">
+          <div class="slide-copy">
+            <p class="slide-eyebrow">Blue's Studio</p>
+            <h3 class="slide-title">Sesiones en vivo</h3>
+            <p class="slide-description">Descubre vinilos de colección y experiencias musicales únicas.</p>
+          </div>
+          <img src="../images/Imagen1c.jpg" alt="Blues Studio" />
+        </div>
+      </div>
+
+      <div class="carrusel-slide">
+        <div class="slide-content">
+          <div class="slide-copy">
+            <p class="slide-eyebrow">Novedades</p>
+            <h3 class="slide-title">Lanzamientos de la semana</h3>
+            <p class="slide-description">Los temas más recientes y recomendados para tu escucha.</p>
+          </div>
+          <img src="../images/Imagen2c.jpg" alt="Artistas en concierto" />
+        </div>
+      </div>
+
+      <div class="carrusel-slide">
+        <div class="slide-content">
+          <div class="slide-copy">
+            <p class="slide-eyebrow">Selección</p>
+            <h3 class="slide-title">Listas curadas</h3>
+            <p class="slide-description">Listas de reproducción seleccionadas para cada momento del día.</p>
+          </div>
+          <img src="../images/Imagen3c.jpg" alt="Colección de discos" />
+        </div>
+      </div>
+
+      <div class="carrusel-slide">
+        <div class="slide-content">
+          <div class="slide-copy">
+            <p class="slide-eyebrow">Sensación</p>
+            <h3 class="slide-title">Siente el verdadero blues</h3>
+            <p class="slide-description">Una experiencia íntima con el ritmo y la esencia del género.</p>
+          </div>
+          <img src="../images/Imagen4c.jpg" alt="Ambiente nocturno" />
+        </div>
+      </div>
+
+      <div class="carrusel-slide">
+        <div class="slide-content">
+          <div class="slide-copy">
+            <p class="slide-eyebrow">Comunidad</p>
+            <h3 class="slide-title">Eventos y conciertos</h3>
+            <p class="slide-description">Conecta con la comunidad y descubre vivencias en vivo.</p>
+          </div>
+          <img src="../images/Imagen5c.jpg" alt="Estudio de audio" />
+        </div>
+      </div>
+
+      <button class="carrusel-btn prev" type="button" aria-label="Anterior">&#10094;</button>
+      <button class="carrusel-btn next" type="button" aria-label="Siguiente">&#10095;</button>
+    </div>
+
+    <div class="carrusel-dots" role="tablist" aria-label="Navegación del carrusel">
+      <button class="dot" type="button" data-index="0" aria-label="Ir a la foto 1"></button>
+      <button class="dot" type="button" data-index="1" aria-label="Ir a la foto 2"></button>
+      <button class="dot" type="button" data-index="2" aria-label="Ir a la foto 3"></button>
+      <button class="dot" type="button" data-index="3" aria-label="Ir a la foto 4"></button>
+      <button class="dot" type="button" data-index="4" aria-label="Ir a la foto 5"></button>
+    </div>
+  </section>
+
+  <section class="mood-section" id="playlists">
+    <p class="section-eyebrow">— Tu estado de ánimo</p>
+    <h2 class="section-title">¿Cómo te<br>sientes <em>hoy?</em></h2>
+
+    <div class="mood-grid">
+
+      <a href="tranquilo.html" class="mood-link">
+        <div class="mood-card" data-mood="Tranquilo">
+          <div class="mood-t">
+            <img class="mood-image" src="../images/tranquilo.png" alt="Tranquilo">
+            <div class="mood-name">Tranquilo</div>
+            <div class="mood-genre">Ambient · Drone</div>
+          </div>
+        </div>
+      </a>
+    
+      <a href="playlistalegre.html" class="mood-link">
+        <div class="mood-card" data-mood="Alegre">
+          <div class="mood-h">
+            <img class="mood-image" src="../images/feliz.png" alt="Alegre">
+            <div class="mood-name">Alegre</div>
+            <div class="mood-genre">Soul · Jazz</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="ansioso.html" class="mood-link">
+        <div class="mood-card" data-mood="Ansioso">
+          <div class="mood-n">
+            <img class="mood-image" src="../images/ansioso.png" alt="Ansioso">
+            <div class="mood-name">Ansioso</div>
+            <div class="mood-genre">432Hz · Breathwork</div>
+          </div>
+        </div>
+      </a>
+    
+      <a href="triste.html" class="mood-link">
+        <div class="mood-card" data-mood="Triste">
+          <div class="mood-s"></div>
+            <img class="mood-image" src="../images/triste.webp" alt="Triste">
+            <div class="mood-name">Triste</div>
+            <div class="mood-genre">Blues · Folk</div>
+        </div>
+      </a>
+    
+      <a href="playlistamor.html" class="mood-link">
+        <div class="mood-card" data-mood="Amor">
+          <div class="mood-a"></div>
+            <img class="mood-image" src="../images/unnamed.webp" alt="Amor">
+            <div class="mood-name">Amor</div>
+            <div class="mood-genre">Binaural · Lo-Fi</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="mood-result" id="moodResult">
+      <span id="moodResultText"></span>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contacto">
+    <div class="contact-intro">
+      <p class="section-label">— Hablemos</p>
+      <h2>Contáctanos</h2>
+      <h3><em>¿Dudas?</em></h3>
+      <p>Si tienes preguntas, sugerencias o quieres colaborar con Blue's, escríbenos y te responderemos lo antes posible.</p>
+      <div class="contact-highlights">
+        <span>hola@bluesmusic.com</span>
+        <span>Colegio Don Bosco</span>
+      </div>
+    </div>
+
+    <div class="contact-panel">
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div>
+            <label for="cNombre">Nombre</label>
+            <input type="text" id="cNombre" required>
+          </div>
+        </div>
+        <div>
+          <label for="cAsunto">Asunto</label>
+          <input type="text" id="cAsunto" required>
+        </div>
+        <div>
+          <label for="cMensaje">Mensaje</label>
+          <textarea id="cMensaje" required></textarea>
+        </div>
+        <button type="submit" class="button-indigo">Enviar mensaje</button>
+        <div class="form-message" id="formMsg"></div>
+      </form>
+
+      <div class="team-access">
+        <button type="button" class="button-toggle" id="teamToggleBtn">¿Eres parte del equipo?</button>
+        <div class="team-login-box" id="teamLoginBox" style="display:none;">
+          <div class="field">
+            <label for="loginUser">Usuario</label>
+            <input type="text" id="loginUser" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="loginPass">Contraseña</label>
+            <input type="password" id="loginPass" autocomplete="off">
+          </div>
+          <button type="button" class="button-indigo" id="loginBtn">Ingresar</button>
+          <p class="login-error" id="loginError"></p>
+        </div>
+      </div>
+
+      <div class="admin-panel" id="adminPanel" style="display:none;">
+        <div class="admin-bar">
+          <h3>Panel del <em>equipo</em></h3>
+          <button type="button" class="button-ghost" id="logoutBtn">Cerrar sesión</button>
+        </div>
+        <div class="messages-list" id="messagesList"></div>
+        <div class="admin-note">
+          <h4>Notas internas</h4>
+          <p>Este espacio reúne los mensajes recibidos para revisar dudas, sugerencias o comentarios.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="../js/home.js"></script>
+
+</body>
+</html>
