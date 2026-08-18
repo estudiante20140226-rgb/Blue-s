@@ -94,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // === ELEMENTOS DEL DOM ===
   const listContainer = document.getElementById('track-list');
   const spotifyFrame = document.getElementById('spotify-frame');
+  const searchInput = document.getElementById('track-search');
+  const searchCount = document.getElementById('search-count');
+  const trackCountBadge = document.getElementById('track-count-badge');
+  const tracklistEl = document.querySelector('.tracklist');
+  const tracklistToggle = document.getElementById('tracklist-toggle');
 
   // === RENDERIZAR TABLA DE CANCIONES ===
   function renderPlaylist() {
@@ -126,6 +131,59 @@ document.addEventListener('DOMContentLoaded', () => {
       listContainer.appendChild(row);
     });
     highlightActiveRow();
+    if (trackCountBadge) trackCountBadge.textContent = playlist.length;
+    applyFilter();
+  }
+
+  // Quita acentos para que "cancion" encuentre "canción"
+  function normalize(str) {
+    return (str || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  // === BUSCADOR: muestra/oculta filas sin tener que re-renderizar todo ===
+  function applyFilter() {
+    if (!searchInput) return;
+    const query = normalize(searchInput.value.trim());
+    let visible = 0;
+
+    document.querySelectorAll('.track-row').forEach(row => {
+      const idx = parseInt(row.getAttribute('data-index'), 10);
+      const track = playlist[idx];
+      if (!track) return;
+      const haystack = normalize(`${track.title} ${track.artist} ${track.album}`);
+      const matches = !query || haystack.includes(query);
+      row.style.display = matches ? '' : 'none';
+      if (matches) visible += 1;
+    });
+
+    if (searchCount) {
+      searchCount.textContent = query ? `${visible} de ${playlist.length}` : '';
+    }
+
+    // Si el usuario busca algo mientras la lista está cerrada, la abrimos
+    if (query && tracklistEl && tracklistEl.classList.contains('collapsed')) {
+      setCollapsed(false);
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilter);
+  }
+
+  // === PESTAÑA DE CANCIONES: abrir / cerrar ===
+  function setCollapsed(collapsed) {
+    if (!tracklistEl) return;
+    tracklistEl.classList.toggle('collapsed', collapsed);
+    if (tracklistToggle) tracklistToggle.setAttribute('aria-expanded', String(!collapsed));
+  }
+
+  if (tracklistToggle && tracklistEl) {
+    tracklistToggle.addEventListener('click', () => {
+      setCollapsed(!tracklistEl.classList.contains('collapsed'));
+    });
   }
 
   // === TRAER DATOS REALES DESDE EL BACKEND ===

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/playlist.css">
+</head>
+<body class="mood-tranquilo">
+
+    <canvas id="waveCanvas"></canvas>
+    <canvas id="partCanvas"></canvas>
+
+    <nav>
+        <div class="nav-logo">Blue<em>'s</em></div>
+        <ul class="nav-links">
+          <li><a href="Home.html">Inicio</a></li>
+          <li><a href="home.html #playlists">Playlists</a></li>
+          <li><a href="Home.html #equipo">Nosotros</a></li>
+          <li><a href="Home.html #contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="mood-pill"><span class="mood-dot"></span>Playlist de musicoterapia · Tranquilidad</div>
+          <h1>
+            Emoción:
+            <em>Tranquilidad</em>
+          </h1>
+          <p class="hero-sub">
+           Pausas sonoras para bajar el ritmo, respirar hondo y quedarte quieto un rato.
+          </p>
+          <p class="hero-quote">
+            "Sonríe, respira y ve despacio."
+            <cite> – Thich Nhat Hanh</cite>
+          </p>
+
+          <div class="playlist-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="track-search" placeholder="Buscar canción o artista en esta playlist…" autocomplete="off">
+            <span class="search-count" id="search-count"></span>
+          </div>
+        </div>
+
+          <div class="emocionimg">
+            <img src="../images/templatetranquilo.jpg" alt="calm">
+            <div class="vinyl-badge" aria-hidden="true">
+              <div class="disc">
+                <div class="label"><span>Tranquilidad</span></div>
+              </div>
+            </div>
+          </div>
+    </section>
+
+<div class="app-shell">
+    <main class="library">
+        <div class="tracklist">
+            <button class="tracklist-toggle" id="tracklist-toggle" aria-expanded="true" aria-controls="tracklist-body">
+                <span class="tracklist-toggle-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    Canciones
+                    <span class="track-count-badge" id="track-count-badge">0</span>
+                </span>
+                <span class="collapsed-hint">Toca para ver las canciones</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="tracklist-body" id="tracklist-body">
+                <div class="tracklist-body-inner">
+                    <div class="track-columns">
+                        <span>#</span>
+                        <span>Título</span>
+                        <span> - Album - </span>
+                        <span style="text-align:right;">Duración</span>
+                    </div>
+                    <div id="track-list"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Reproductor de Spotify -->
+    <aside class="spotify-player">
+        <h4 class="spotify-player-label">Reproduciendo</h4>
+        <iframe id="spotify-frame" src="" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </aside>
+</div>
+
+    <div id="custom-tracks-source" style="display:none;">
+
+        <div class="custom-track"
+            data-title="Come Away With Me"
+            data-artist="Norah Jones"
+            data-album="Come Away with Me"
+            data-art="NJ"
+            data-spotify="https://open.spotify.com/embed/track/5qnoW3iiiqQKD5nQC6Zay6"></div>
+
+        <div class="custom-track"
+            data-title="Holocene"
+            data-artist="Bon Iver"
+            data-album="Bon Iver, Bon Iver"
+            data-art="BI"
+            data-spotify="https://open.spotify.com/embed/track/6DESft0qm6RhoYf5wzeoGH"></div>
+
+        <div class="custom-track"
+            data-title="Nuvole Bianche"
+            data-artist="Ludovico Einaudi"
+            data-album="Una Mattina"
+            data-art="LE"
+            data-spotify="https://open.spotify.com/embed/track/0vXf5zT0nkAvul9bG4CDAY"></div>
+    </div>
+
+    <footer>
+        <div class="foot-logo">Blue<em>'s</em></div>
+        <p>
+            Desarrollo de Software · 1°C · Crea-J 2026<br>
+            Asesor: Ing. Carlos Amílcar Chávez
+        </p>
+        <p class="foot-disclaimer">
+            Sitio web con fines estrictamente académicos y educativos. No persigue fines de lucro. Todo el material audiovisual utilizado pertenece a sus respectivos autores bajo el derecho de cita didáctica.
+        </p>
+    </footer>
+
+    <script src="../js/playlist.js"></script>
+</body>
+</html>
